@@ -96,7 +96,8 @@ def make_windowed_data(data, start, end, window_size = 1):
 
     windowed_data = []
     for sentence, labels in data:
-        #run a loop i
+        ### YOUR CODE HERE (5-20 lines)
+	
         for i in range(len(sentence)):                                            #([5,0] + [1,1] + [2,0], 1,),
                                                                                     #([1,1] + [2,0] + [3,3], 2,),
             beg_list = []
@@ -118,20 +119,8 @@ def make_windowed_data(data, start, end, window_size = 1):
             if(len(end_list) != 0):
                 beg_list.extend(end_list)
             windowed_data.append((beg_list,labels[i]))    
-        #if i==0
-          #append start*w token in front of i till i+w after i
-          #make tuple(appended list,labels[i])
-        #for i >0 and i<len(sentence)
-          #append from i-w index to i+w in i
-          #make tuple(appended_list,labels[i])
-        #if i == len(sentence)
-          #append i-w in front of i and w*end token after i
-          #make tuple(appended_list,labels[i])
 
-        #append in windowed_data after every interation
-        
-		### YOUR CODE HERE (5-20 lines)
-
+    
 		### END YOUR CODE
     return windowed_data
 
