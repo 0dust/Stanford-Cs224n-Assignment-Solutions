@@ -51,6 +51,7 @@ class StanfordSentiment:
             return self._sentences
 
         sentences = []
+        
         with open(self.path + "/datasetSentences.txt", "rb") as f:
             first = True
             for line in f:
@@ -61,8 +62,8 @@ class StanfordSentiment:
 
                 splitted = line.strip().split()[1:]
                 # Deal with some peculiar encoding issues with this file
-                sentences += [[w.lower().decode('utf-8').encode('latin1') for w in splitted]]
-
+               
+                sentences += [[w.lower().decode('utf-8').encode('latin1').decode('utf-8') for w in splitted]]
         self._sentences = sentences
         self._sentlengths = np.array([len(s) for s in sentences])
         self._cumsentlen = np.cumsum(self._sentlengths)
@@ -136,6 +137,7 @@ class StanfordSentiment:
                 line = line.strip()
                 if not line: continue
                 splitted = line.split("|")
+              
                 labels[int(splitted[0])] = float(splitted[1])
 
         sent_labels = [0.0] * self.numSentences()
@@ -145,10 +147,10 @@ class StanfordSentiment:
             
             sentence = sentences[i]
            
-            #full_sent = ' '.join(sentence).replace('-lrb-', '(').replace('-rrb-', ')')
-            full_sent = (b" ".join(sentence).replace(b'-lrb-', b'(').replace(b'-rrb-', b')')).decode('utf-8')
+            full_sent = ' '.join(sentence).replace('-lrb-', '(').replace('-rrb-', ')')
+            #full_sent = (b" ".join(sentence).replace(b'-lrb-', b'(').replace(b'-rrb-', b')')).decode('utf-8')
             sent_labels[i] = labels[dictionary[full_sent]]
-
+            #print(sent_labels[i])
         self._sent_labels = sent_labels
         return self._sent_labels
 
